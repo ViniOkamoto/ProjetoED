@@ -2,6 +2,8 @@ package view;
 
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,14 +13,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+
+import model.ProductTableModel;
 
 public class ProductView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTable table;
 
 	/**
 	 * Create the frame.
@@ -33,7 +42,7 @@ public class ProductView extends JFrame {
 		
 /*-------------------------menu------------------------------*/
 		
-Color blue = new Color(72,94,136);
+		Color blue = new Color(72,94,136);
 		
 		JPanel menu = new JPanel();
 		menu.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -153,6 +162,43 @@ Color blue = new Color(72,94,136);
 		lblProduct.setHorizontalAlignment(SwingConstants.CENTER);
 		lblProduct.setBounds(432, 33, 382, 71);
 		contentPane.add(lblProduct);
-	}
+		
+		table = new JTable();
+		table.setShowVerticalLines(false);
+		table.setRowHeight(32);
+		ProductTableModel dataModel = new ProductTableModel();
+		table.setModel(dataModel);
+		JTableHeader th = table.getTableHeader(); 
+		th.setPreferredSize(new Dimension(100, 40));
+		table.getColumnModel().getColumn(0).setPreferredWidth(10);
+		table.getColumnModel().getColumn(2).setPreferredWidth(180);
+		table.getColumnModel().getColumn(4).setPreferredWidth(30);
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			private static final long serialVersionUID = 1L;
 
+			@Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (row%2==0) {
+                    setBackground(Color.LIGHT_GRAY);
+                    setForeground(Color.BLACK);
+                } else {
+                    boolean sel = isSelected;
+                    if (sel == true) {
+                        setBackground(getBackground());
+                        setForeground(getForeground());
+                    } else {
+                        setBackground(Color.WHITE);
+                        setForeground(Color.BLACK);
+                    }
+                }
+                return this;
+            }
+        });
+		contentPane.add(table);
+		JScrollPane scroll = new JScrollPane(table);
+		scroll.setBounds(328, 204, 608, 272);
+		contentPane.add(scroll);
+	}
 }
