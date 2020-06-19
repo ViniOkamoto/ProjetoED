@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 import model.ProductTableModel;
+import javax.swing.JButton;
 
 public class ProductView extends JFrame {
 
@@ -170,7 +171,7 @@ public class ProductView extends JFrame {
 		table.setModel(dataModel);
 		JTableHeader th = table.getTableHeader(); 
 		th.setPreferredSize(new Dimension(100, 40));
-		table.getColumnModel().getColumn(0).setPreferredWidth(10);
+		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.getColumnModel().getColumn(2).setPreferredWidth(180);
 		table.getColumnModel().getColumn(4).setPreferredWidth(30);
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
@@ -200,5 +201,10 @@ public class ProductView extends JFrame {
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setBounds(328, 204, 608, 272);
 		contentPane.add(scroll);
+		
+		JButton btnAddProduct = new JButton("Adicionar Produto");
+		btnAddProduct.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAddProduct.setBounds(779, 170, 157, 23);
+		contentPane.add(btnAddProduct);
 	}
 }

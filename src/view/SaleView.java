@@ -2,23 +2,33 @@ package view;
 
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+
+import model.SaleTableModel;
 
 public class SaleView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTable table;
 
 	/**
 	 * Create the frame.
@@ -153,6 +163,48 @@ Color blue = new Color(72,94,136);
 		lblSale.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSale.setBounds(432, 33, 382, 71);
 		contentPane.add(lblSale);
+		
+		table = new JTable();
+		table.setShowVerticalLines(false);
+		table.setRowHeight(32);
+		SaleTableModel dataModel = new SaleTableModel();
+		table.setModel(dataModel);
+		JTableHeader th = table.getTableHeader(); 
+		th.setPreferredSize(new Dimension(100, 40));
+		table.getColumnModel().getColumn(0).setPreferredWidth(50);
+		table.getColumnModel().getColumn(2).setPreferredWidth(150);
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (row%2==0) {
+                    setBackground(Color.LIGHT_GRAY);
+                    setForeground(Color.BLACK);
+                } else {
+                    boolean sel = isSelected;
+                    if (sel == true) {
+                        setBackground(getBackground());
+                        setForeground(getForeground());
+                    } else {
+                        setBackground(Color.WHITE);
+                        setForeground(Color.BLACK);
+                    }
+                }
+                return this;
+            }
+        });
+		contentPane.add(table);
+		JScrollPane scroll = new JScrollPane(table);
+		scroll.setBounds(328, 204, 608, 272);
+		contentPane.add(scroll);
+		
+		JButton btnAddSale = new JButton("Adicionar Saída");
+		btnAddSale.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAddSale.setBounds(779, 170, 157, 23);
+		contentPane.add(btnAddSale);
 	}
 
 }
