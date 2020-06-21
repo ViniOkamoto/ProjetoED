@@ -11,6 +11,7 @@ import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -155,6 +156,8 @@ Color blue = new Color(72,94,136);
 		
 		/*-------------------------menu------------------------------*/
 		
+		/*--------------------------Titulo---------------------------*/
+		
 		Color orange = new Color(219,153,80);
 		
 		JLabel lblLot = new JLabel("Lote");
@@ -163,6 +166,10 @@ Color blue = new Color(72,94,136);
 		lblLot.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLot.setBounds(432, 33, 382, 71);
 		contentPane.add(lblLot);
+		
+		/*--------------------------Titulo---------------------------*/
+		
+		/*--------------------------Tabela---------------------------*/
 		
 		table = new JTable();
 		table.setShowVerticalLines(false);
@@ -204,6 +211,23 @@ Color blue = new Color(72,94,136);
 		btnAddLot.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAddLot.setBounds(779, 170, 157, 23);
 		contentPane.add(btnAddLot);
+		
+		/*--------------------------Tabela---------------------------*/
+		
+		/*--------------------------Filtro---------------------------*/
+		
+		JComboBox<String> selectorFilterName = new JComboBox<String>();
+		selectorFilterName.addItem("All");
+		selectorFilterName.addItem("Exemplo");
+		selectorFilterName.setBounds(328, 171, 107, 23);
+		contentPane.add(selectorFilterName);
+		
+		JLabel lblFilter_1 = new JLabel("Fitrar por nome");
+		lblFilter_1.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblFilter_1.setBounds(328, 148, 107, 14);
+		contentPane.add(lblFilter_1);
+		
+		/*--------------------------Filtro---------------------------*/
 	}
 
 }
