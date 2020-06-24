@@ -12,14 +12,17 @@ public class ProductController{
     	 this.start = null;
      }
 
-     public Product getIndex(int x) {
+     public Product getProduct(int x) {
          NodeProduct aux = this.start;
          for(int i=0; i< x; i++) {
              aux = aux.getNext();
          }
+         if(aux == null) {
+        	 return null;
+         }
          return aux.getData();
      }
-     
+   
 	public void addAndSave(Product data) {
 		NodeProduct n = new NodeProduct(data);
 		if(this.start == null) {
@@ -86,7 +89,7 @@ public class ProductController{
 			removeStart();
 		}else if(pos == size(this.start) + 1) {
 			removeLast();
-		}else if(pos < size(this.start) && pos>0) {
+		}else if(pos <= size(this.start) && pos>0) {
 			NodeProduct aux = this.start;
 			for(int i=0; i<pos-1; i++) {
 				aux = aux.getNext();
@@ -117,6 +120,23 @@ public class ProductController{
         }
     }
 	
+	public int getIndex(int id) {
+		NodeProduct aux = this.start;
+		boolean exist = false;
+		int pos = 1;
+		while (id != aux.getData().getId() && aux != null) {
+			pos++;
+			aux = aux.getNext();
+		}
+		if(id == aux.getData().getId()) {
+			exist = true;
+		}
+		if(exist) {
+			return pos;
+		} else {
+			return 0;
+		}
+	}
 	/*------------------------------------------------------------------------------------*/
 	
 	private int size(NodeProduct n) {

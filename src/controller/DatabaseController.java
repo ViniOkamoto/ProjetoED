@@ -21,7 +21,7 @@ public class DatabaseController {
         File dir = new File(path);
         if(!dir.exists() || !dir.isDirectory()) {
             if(dir.mkdir()) {
-                System.out.println("DiretÛrio Temp criado com sucesso!");
+                System.out.println("Diret√≥rio Temp criado com sucesso!");
             }else {
                 System.err.println("Error!");
             }
@@ -42,7 +42,7 @@ public class DatabaseController {
             printer.close();
             writer.close();
         }else {
-            String save = "Id;Id do Produto;Valor de Compra;Valor de Venda;Quantidade de Entrada;Quantidade de SaÌda;Data de Entrada\n";
+            String save = "Id;Id do Produto;Valor de Compra;Valor de Venda;Quantidade de Entrada;Quantidade de Sa√≠da;Data de Entrada\n";
             save += data.getId() + ";" + data.getProduct().getId() + ";" + data.getPurcasheValue() + ";" + data.getSaleValue() + ";"
     			 + data.getQtIn() + ";" + data.getQtOut() + ";" + data.getDateIn() + "\n";
             FileWriter writer = new FileWriter(file);
@@ -55,6 +55,8 @@ public class DatabaseController {
         System.out.println("Lote salvo com sucesso!");
     }
 	
+
+    // ------------- Product DATABASE --------
 	public void saveProduct(Product data) throws IOException {
         verifyDir();
         String path = "C:\\databasePadaria\\product.csv";
@@ -67,7 +69,7 @@ public class DatabaseController {
             printer.flush();
             printer.close();
             writer.close();
-        }else {
+        } else {
             String save = "Id;Nome;Tipo;Marca\n";
             save += data.getId() + ";" + data.getName() + ";" + data.getType() + ";" + data.getBrand()+ "\n";
             FileWriter writer = new FileWriter(file);
@@ -101,10 +103,47 @@ public class DatabaseController {
             flow.close();
             stream.close();
         }else {
-            System.err.println("N„o existem cadastros!");
+            System.err.println("N√£o existem cadastros!");
         }
         return productController;
     }
+	
+	private String preparar (ProductController controller) {
+        StringBuffer buffer = new StringBuffer();
+        String preparo;
+        int pos = 0;
+        Product data = controller.getProduct(pos);
+        do {
+            buffer.append(data.getId() + ";" + data.getName() + ";" + data.getType() + ";" + data.getBrand());
+            buffer.append("\n");
+            pos++;
+            data = controller.getProduct(pos);
+        }while(data!=null);
+        preparo = buffer.toString();
+        return preparo;
+    }
+	
+	public void removeProduct(ProductController controller, int id) throws IOException {
+		int indexProduct = controller.getIndex(id);
+		if(indexProduct != 0) {
+			controller.removeMiddle(indexProduct);
+			verifyDir();
+		    String path = "C:\\databasePadaria\\product.csv";
+		    File file = new File(path);
+		    String save = "Id;Nome;Tipo;Marca\n";
+	        save += preparar(controller);
+	        FileWriter writer = new FileWriter(file);
+	        PrintWriter printer = new PrintWriter(writer);
+	        printer.write(save);
+	        printer.flush();
+	        printer.close();
+	        writer.close();
+	        System.out.println("Produto removido com sucesso!");
+		} else {
+			System.out.println("Produto n√£o encontrado");
+		}
+	}
+// ------------ End Product Database --------------	
 	
 	public boolean verifyExistsData(String db) throws IOException {
         String path = "C:\\databasePadaria\\" + db + ".csv";
