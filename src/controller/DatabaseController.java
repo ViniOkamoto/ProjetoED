@@ -201,18 +201,22 @@ public class DatabaseController {
 	public void removeProduct(ProductController controller, int id) throws IOException {
 		int indexProduct = controller.getIndex(id);
 		if(indexProduct != 0) {
-			controller.removeMiddle(indexProduct);
 			verifyDir();
 		    String path = "C:\\databasePadaria\\product.csv";
 		    File file = new File(path);
-		    String save = "Id;Nome;Tipo;Marca\n";
-	        save += prepareProduct(controller);
-	        FileWriter writer = new FileWriter(file);
-	        PrintWriter printer = new PrintWriter(writer);
-	        printer.write(save);
-	        printer.flush();
-	        printer.close();
-	        writer.close();
+			controller.removeMiddle(indexProduct);
+			if(controller.getProduct(0)==null) {
+				file.delete();
+			}else {
+				String save = "Id;Nome;Tipo;Marca\n";
+		        save += prepareProduct(controller);
+		        FileWriter writer = new FileWriter(file);
+		        PrintWriter printer = new PrintWriter(writer);
+		        printer.write(save);
+		        printer.flush();
+		        printer.close();
+		        writer.close();
+			}
 	        System.out.println("Produto removido com sucesso!");
 		} else {
 			System.out.println("Produto não encontrado");

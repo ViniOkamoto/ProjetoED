@@ -35,6 +35,7 @@ public class ProductTableModel extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		switch(columnIndex) {
+		
 			case 0:return list.getProduct(rowIndex).getId();
 			case 1:return list.getProduct(rowIndex).getType();
 			case 2:return list.getProduct(rowIndex).getName();

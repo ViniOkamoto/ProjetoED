@@ -32,11 +32,11 @@ public class ProductController{
  			exist = true;
  		}
  		while (aux != null && id != aux.getData().getId()  ) {
+ 			aux = aux.getNext();
  			if(id == aux.getData().getId()) {
  	 			exist = true;
  	 		}
  			pos++;
- 			aux = aux.getNext();
  		}
  		if(exist) {
  			return pos;
@@ -154,9 +154,11 @@ public class ProductController{
 	public int size() {
 		NodeProduct n = this.start;
 		int r = 0;
-		while(n.getNext()!=null) {
-			n = n.getNext();
-			r++;
+		if(n!=null) {
+			while(n.getNext()!=null) {
+				n = n.getNext();
+				r++;
+			}
 		}
 		return r;
 	}

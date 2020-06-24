@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -244,6 +245,34 @@ public class ProductView extends JFrame {
 		btnAddProduct.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAddProduct.setBounds(779, 170, 157, 23);
 		contentPane.add(btnAddProduct);
+		
+		JButton btnRemove = new JButton("Remover");
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(table.isColumnSelected(4)) {
+					String s = table.getValueAt(table.getSelectedRow(), 0).toString();
+						int id = Integer.parseInt(s);
+						try {
+							database.removeProduct(list, id);
+							if(list.getProduct(0)==null) {
+								ProductView product = new ProductView();
+								product.setVisible(true);
+								dispose();
+							}else {
+								dataModel.addRow();
+							}
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+				}else {
+					JOptionPane.showMessageDialog(null, "Selecione uma linha na coluna"
+							+ " opções","Error",0);
+				}
+			}
+		});
+		btnRemove.setBounds(779, 145, 157, 23);
+		btnRemove.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		contentPane.add(btnRemove);
 		
 		/*--------------------------Tabela---------------------------*/
 		
