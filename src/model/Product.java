@@ -1,6 +1,6 @@
 package model;
 
-public class Product {
+public class Product{
 	private int id;
 	private String name;
 	private String type;
@@ -12,6 +12,7 @@ public class Product {
 		this.type = type;
 		this.brand = brand;
 	}
+	
 
 	public int getId() {
 		return id;
