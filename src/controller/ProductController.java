@@ -82,7 +82,7 @@ public class ProductController{
 	
 	public void removeStart() {
 		if(this.start==null) {
-			System.err.println("A lista est· vazia");
+			System.err.println("A lista est√° vazia");
 		}else {
 			this.start = this.start.getNext();
 			if(this.start!=null) {
@@ -93,7 +93,7 @@ public class ProductController{
 	
 	public void removeLast() {
 		if(this.start==null) {
-			System.err.println("A lista est· vazia");
+			System.err.println("A lista est√° vazia");
 		}else if(this.start.getNext()==null){
 			this.start = null;
 		}else {
@@ -109,9 +109,9 @@ public class ProductController{
 	public void removeMiddle(int pos) {
 		if(pos==1) {
 			removeStart();
-		}else if(pos == size(this.start) + 1) {
+		}else if(pos == size() + 1) {
 			removeLast();
-		}else if(pos <= size(this.start) && pos>0) {
+		}else if(pos <= size() && pos>0) {
 			NodeProduct aux = this.start;
 			for(int i=0; i<pos-1; i++) {
 				aux = aux.getNext();
@@ -121,7 +121,7 @@ public class ProductController{
 			aux2.setNext(aux);
 			aux.setBefore(aux2);
 		}else {
-			System.err.println("PosiÁ„o inv·lida :/");
+			System.err.println("Posi√ß√£o inv√°lida :/");
 		}
 	}
 	
@@ -141,11 +141,18 @@ public class ProductController{
             return data;
         }
     }
-	
-	
+		
+	public Product getLastElement() {
+		NodeProduct aux = this.start;
+		while(aux.getNext()!=null) {
+			aux = aux.getNext();
+		}
+		return aux.getData();
+	}
 	/*------------------------------------------------------------------------------------*/
 	
-	private int size(NodeProduct n) {
+	public int size() {
+		NodeProduct n = this.start;
 		int r = 0;
 		while(n.getNext()!=null) {
 			n = n.getNext();

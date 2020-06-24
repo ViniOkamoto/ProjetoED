@@ -8,8 +8,11 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,20 +24,35 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
+import controller.DatabaseController;
+import controller.ProductController;
 import model.ProductTableModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ProductView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
+	private ProductController list;
 
 	/**
 	 * Create the frame.
 	 */
 	public ProductView() {
+		/*---------------------Initialize datas-----------------------*/
+		list = new ProductController();
+		DatabaseController database = new DatabaseController();
+		try {
+			list = database.getDatasProduct(list);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		/*---------------------Initialize datas-----------------------*/
+		
+		/*---------------------Create frame--------------------------*/
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(10, 10, 1024, 720);
 		contentPane = new JPanel();
@@ -42,7 +60,9 @@ public class ProductView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-/*-------------------------menu------------------------------*/
+		/*---------------------Create frame--------------------------*/
+		
+		/*-------------------------menu------------------------------*/
 		
 		Color blue = new Color(72,94,136);
 		
@@ -175,7 +195,7 @@ public class ProductView extends JFrame {
 		table.setLocation(20, 33);
 		table.setShowVerticalLines(false);
 		table.setRowHeight(32);
-		ProductTableModel dataModel = new ProductTableModel();
+		ProductTableModel dataModel = new ProductTableModel(list);
 		table.setModel(dataModel);
 		JTableHeader th = table.getTableHeader(); 
 		th.setPreferredSize(new Dimension(100, 40));
@@ -193,14 +213,8 @@ public class ProductView extends JFrame {
                     setBackground(Color.LIGHT_GRAY);
                     setForeground(Color.BLACK);
                 } else {
-                    boolean sel = isSelected;
-                    if (sel == true) {
-                        setBackground(getBackground());
-                        setForeground(getForeground());
-                    } else {
-                        setBackground(Color.WHITE);
-                        setForeground(Color.BLACK);
-                    }
+                    setBackground(Color.WHITE);
+                    setForeground(Color.BLACK);
                 }
                 return this;
             }
@@ -211,6 +225,22 @@ public class ProductView extends JFrame {
 		contentPane.add(scroll);
 		
 		JButton btnAddProduct = new JButton("Adicionar Produto");
+		btnAddProduct.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean newTable = false;
+				if(list == null) {
+					newTable = true;
+				}
+				Create create = new Create();
+				create.createProduct(list);
+				if(newTable) {
+					ProductView product = new ProductView();
+					product.setVisible(true);
+					dispose();
+				}
+				dataModel.addRow();
+			}
+		});
 		btnAddProduct.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAddProduct.setBounds(779, 170, 157, 23);
 		contentPane.add(btnAddProduct);
