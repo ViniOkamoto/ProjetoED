@@ -5,9 +5,13 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +27,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
+import controller.DatabaseController;
+import controller.LotController;
 import model.LotTableModel;
 
 public class LotView extends JFrame {
@@ -30,11 +36,22 @@ public class LotView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
+	private LotTableModel dataModel;
+	private LotController list;
 
 	/**
 	 * Create the frame.
 	 */
 	public LotView() {
+		DatabaseController database = new DatabaseController();
+		list = new LotController();
+		try {
+			list = database.getDatasLote(list);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(10, 10, 1024, 720);
 		contentPane = new JPanel();
@@ -174,7 +191,7 @@ Color blue = new Color(72,94,136);
 		table = new JTable();
 		table.setShowVerticalLines(false);
 		table.setRowHeight(32);
-		LotTableModel dataModel = new LotTableModel();
+		dataModel = new LotTableModel(list);
 		table.setModel(dataModel);
 		JTableHeader th = table.getTableHeader(); 
 		th.setPreferredSize(new Dimension(100, 40));
@@ -202,6 +219,22 @@ Color blue = new Color(72,94,136);
 		contentPane.add(scroll);
 		
 		JButton btnAddLot = new JButton("Adicionar Lote");
+		btnAddLot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean newTable = false;
+				if(list == null) {
+					newTable = true;
+				}
+				Create create = new Create();
+				create.createLot(list);
+				if(newTable) {
+					LotView lot = new LotView();
+					lot.setVisible(true);
+					dispose();
+				}
+				dataModel.addRow();
+			}
+		});
 		btnAddLot.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAddLot.setBounds(779, 170, 157, 23);
 		contentPane.add(btnAddLot);

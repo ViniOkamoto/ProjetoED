@@ -78,7 +78,7 @@ public class DatabaseController {
             while(line!=null) {
                 String [] auxs = line.split(";");
                 indexProduct = productController.getIndex(Integer.parseInt(auxs[1]));
-                product = productController.getProduct(indexProduct);
+                product = productController.getProduct(indexProduct-1);
                 Date result = df.parse(auxs[6]);
                 lot = new Lot(Integer.parseInt(auxs[0]), product, Integer.parseInt(auxs[2]), Integer.parseInt(auxs[3]), Double.parseDouble(auxs[4]), 
                 		Double.parseDouble(auxs[5]), result);
@@ -88,10 +88,12 @@ public class DatabaseController {
             reader.close();
             flow.close();
             stream.close();
+            return lotController;
         }else {
             System.err.println("Não existem cadastros!");
+            return null;
         }
-        return lotController;
+       
     }
 	
 	public void removeLot(LotController controller) throws IOException {
