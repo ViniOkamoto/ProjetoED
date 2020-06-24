@@ -22,6 +22,28 @@ public class ProductController{
          }
          return aux.getData();
      }
+     
+     public int getIndex(int id) {
+ 		NodeProduct aux = this.start;
+ 		boolean exist = false;
+ 		int pos = 1;
+ 		
+ 		if(id == aux.getData().getId()) {
+ 			exist = true;
+ 		}
+ 		while (aux != null && id != aux.getData().getId()  ) {
+ 			if(id == aux.getData().getId()) {
+ 	 			exist = true;
+ 	 		}
+ 			pos++;
+ 			aux = aux.getNext();
+ 		}
+ 		if(exist) {
+ 			return pos;
+ 		} else {
+ 			return 0;
+ 		}
+ 	}
    
 	public void addAndSave(Product data) {
 		NodeProduct n = new NodeProduct(data);
@@ -60,7 +82,7 @@ public class ProductController{
 	
 	public void removeStart() {
 		if(this.start==null) {
-			System.err.println("A lista est· vazia");
+			System.err.println("A lista est√° vazia");
 		}else {
 			this.start = this.start.getNext();
 			if(this.start!=null) {
@@ -71,7 +93,7 @@ public class ProductController{
 	
 	public void removeLast() {
 		if(this.start==null) {
-			System.err.println("A lista est· vazia");
+			System.err.println("A lista est√° vazia");
 		}else if(this.start.getNext()==null){
 			this.start = null;
 		}else {
@@ -99,11 +121,11 @@ public class ProductController{
 			aux2.setNext(aux);
 			aux.setBefore(aux2);
 		}else {
-			System.err.println("PosiÁ„o inv·lida :/");
+			System.err.println("Posi√ß√£o inv√°lida :/");
 		}
 	}
 	
-	public String mostrar() {
+	public String show() {
         if(this.start == null) {
             return null;
         }else {
@@ -119,25 +141,7 @@ public class ProductController{
             return data;
         }
     }
-	
-	public int getIndex(int id) {
-		NodeProduct aux = this.start;
-		boolean exist = false;
-		int pos = 1;
-		while (id != aux.getData().getId() && aux != null) {
-			pos++;
-			aux = aux.getNext();
-		}
-		if(id == aux.getData().getId()) {
-			exist = true;
-		}
-		if(exist) {
-			return pos;
-		} else {
-			return 0;
-		}
-	}
-	
+		
 	public Product getLastElement() {
 		NodeProduct aux = this.start;
 		while(aux.getNext()!=null) {
