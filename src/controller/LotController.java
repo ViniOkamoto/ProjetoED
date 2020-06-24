@@ -1,22 +1,44 @@
 package controller;
 
-import model.NOLot;
+import java.io.IOException;
+
+import model.Lot;
+import model.NodeLot;
 
 public class LotController {
-	private NOLot start;
+	private NodeLot start;
 	//private int id;
 	
 	public LotController() {
-		// TODO Auto-generated constructor stub
 		this.start = null;
 	}
 	
-	public void add(int data) {
-		NOLot n = new NOLot(data);
+	public void addAndSave(Lot data) {
+		NodeLot n = new NodeLot(data);
 		if(this.start == null) {
 			this.start = n;
 		}else {
-			NOLot aux = this.start;
+			NodeLot aux = this.start;
+			while(aux.getNext()!=null) {
+				aux = aux.getNext();
+			}
+			aux.setNext(n);
+			n.setBack(aux);
+		}
+		DatabaseController database = new DatabaseController();
+		try {
+			database.saveLot(data);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void add(Lot data) {
+		NodeLot n = new NodeLot(data);
+		if(this.start == null) {
+			this.start = n;
+		}else {
+			NodeLot aux = this.start;
 			while(aux.getNext()!=null) {
 				aux = aux.getNext();
 			}
@@ -25,13 +47,13 @@ public class LotController {
 		}
 	}
 	
-	public NOLot remove() {
+	public NodeLot remove() {
 		if(this.start==null) {
 			System.err.println("A lista está vazia");
 			return null;
 		}else {
 			this.start = this.start.getNext();
-			NOLot aux = this.start;
+			NodeLot aux = this.start;
 			if(this.start!=null) {
 				this.start.setBack(null);
 			}
@@ -46,7 +68,7 @@ public class LotController {
 		}else {
 			StringBuffer buffer = new StringBuffer();
 			buffer.append("{");
-			NOLot aux = this.start;
+			NodeLot aux = this.start;
 			while(aux!=null) {
 				buffer.append(aux.getData());
 				buffer.append(", ");

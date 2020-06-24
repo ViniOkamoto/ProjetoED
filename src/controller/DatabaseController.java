@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import model.Lot;
 import model.Product;
 
 public class DatabaseController {
@@ -25,6 +26,33 @@ public class DatabaseController {
                 System.err.println("Error!");
             }
         }
+    }
+	
+	public void saveLot(Lot data) throws IOException {
+        verifyDir();
+        String path = "C:\\databasePadaria\\lot.csv";
+        File file = new File(path);
+        if(verifyExistsData("lot")) {
+        	String save = data.getId() + ";" + data.getProduct().getId() + ";" + data.getPurcasheValue() + ";" + data.getSaleValue() + ";"
+       			 		+ data.getQtIn() + ";" + data.getQtOut() + ";" + data.getDateIn() + "\n"; 
+            FileWriter writer = new FileWriter(file, true);
+            PrintWriter printer = new PrintWriter(writer);
+            printer.write(save);
+            printer.flush();
+            printer.close();
+            writer.close();
+        }else {
+            String save = "Id;Id do Produto;Valor de Compra;Valor de Venda;Quantidade de Entrada;Quantidade de Saída;Data de Entrada\n";
+            save += data.getId() + ";" + data.getProduct().getId() + ";" + data.getPurcasheValue() + ";" + data.getSaleValue() + ";"
+    			 + data.getQtIn() + ";" + data.getQtOut() + ";" + data.getDateIn() + "\n";
+            FileWriter writer = new FileWriter(file);
+            PrintWriter printer = new PrintWriter(writer);
+            printer.write(save);
+            printer.flush();
+            printer.close();
+            writer.close();
+        }
+        System.out.println("Lote salvo com sucesso!");
     }
 	
 	public void saveProduct(Product data) throws IOException {
