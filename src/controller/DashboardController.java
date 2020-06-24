@@ -1,32 +1,44 @@
 package controller;
 
-import model.NodeSale;
+import model.NodeDashboard;
+import view.Dashboard;
 
-public class SaleController {
-	private NodeSale start;
+public class DashboardController {
+	private NodeDashboard start;
 	
-	public SaleController() {
+	public DashboardController() {
 		this.start = null;
 	}
 	
-	public void adicionarInicio(int data) {
-		NodeSale n = new NodeSale(data);
+	public Dashboard getDashboard(int x) {
+        NodeDashboard aux = this.start;
+        for(int i=0; i< x; i++) {
+            aux = aux.getNext();
+        }
+        if(aux == null) {
+       	 return null;
+        }
+        return aux.getData();
+    }
+	
+	public void adicionarInicio(Dashboard data) {
+		NodeDashboard n = new NodeDashboard(data);
 		if(this.start==null) {
 			this.start = n;
 		}else {
-			NodeSale aux = this.start;
+			NodeDashboard aux = this.start;
 			n.setNext(aux);
 			aux.setBefore(n);
 			this.start = n;
 		}
 	}
 	
-	public void adicionarFinal(int data) {
-		NodeSale n = new NodeSale(data);
+	public void adicionarFinal(Dashboard data) {
+		NodeDashboard n = new NodeDashboard(data);
 		if(this.start == null) {
 			this.start = n;
 		}else {
-			NodeSale aux = this.start;
+			NodeDashboard aux = this.start;
 			while(aux.getNext()!=null) {
 				aux = aux.getNext();
 			}
@@ -35,18 +47,18 @@ public class SaleController {
 		}
 	}
 	
-	public void adicionarMeio(int data, int pos) {
+	public void adicionarMeio(Dashboard data, int pos) {
 		if(pos == 1) {
 			adicionarInicio(data);
 		}else if(pos==size(this.start)+1) {
 			adicionarFinal(data);
 		}else if(pos<size(this.start) && pos>0) {
-			NodeSale n = new NodeSale(data);
-			NodeSale aux = start;
+			NodeDashboard n = new NodeDashboard(data);
+			NodeDashboard aux = start;
 			for(int i=0; i<pos-1; i++) {
 				aux = aux.getNext();
 			}
-			NodeSale aux2 = aux.getBefore();
+			NodeDashboard aux2 = aux.getBefore();
 			aux2.setNext(n);
 			n.setBefore(aux2);
 			n.setNext(aux);
@@ -73,11 +85,11 @@ public class SaleController {
 		}else if (this.start.getNext()==null){
 			this.start = null;
 		}else {
-			NodeSale aux = this.start;
+			NodeDashboard aux = this.start;
 			while(aux.getNext()!=null) {
 				aux = aux.getNext();
 			}
-			NodeSale aux2 = aux.getBefore();
+			NodeDashboard aux2 = aux.getBefore();
 			aux.setBefore(null);
 			aux2.setNext(null);
 		}
@@ -89,11 +101,11 @@ public class SaleController {
 		}else if(pos==size(this.start) + 1) {
 			removerFinal();
 		}else if(pos<size(this.start)) {
-			NodeSale aux = this.start;
+			NodeDashboard aux = this.start;
 			for(int i=0; i<pos-1; i++) {
 				aux = aux.getNext();
 			}
-			NodeSale aux2 = aux.getBefore();
+			NodeDashboard aux2 = aux.getBefore();
 			aux = aux.getNext();
 			aux2.setNext(aux);
 			aux.setBefore(aux2);
@@ -109,7 +121,7 @@ public class SaleController {
 			return "A lista está vazia";
 		}else {
 			buffer.append("A lista é: \n");
-			NodeSale aux = this.start;
+			NodeDashboard aux = this.start;
 			while(aux!=null) {
 				buffer.append(aux.getData() + ", ");
 				aux = aux.getNext();
@@ -119,7 +131,7 @@ public class SaleController {
 		return mostrar;
 	}
 	
-	private int size(NodeSale x) {
+	private int size(NodeDashboard x) {
 		int r = 0;
 		while(x.getNext()!=null) {
 			x = x.getNext();
