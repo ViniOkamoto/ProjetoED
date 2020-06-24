@@ -1,8 +1,14 @@
 package view;
 
+import java.io.IOException;
+import java.util.Date;
+
 import javax.swing.JOptionPane;
 
+import controller.DatabaseController;
+import controller.LotController;
 import controller.ProductController;
+import model.Lot;
 import model.Product;
 
 public class Create {
@@ -28,8 +34,56 @@ public class Create {
 		list.addAndSave(data);
 	}
 	
-	public void createLot() {
-		
+	public void createLot(LotController list) {
+		Product aux = null;
+		ProductController productList = new ProductController();
+		DatabaseController database = new DatabaseController();
+		try {
+			productList = database.getDatasProduct(productList);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Lot last;
+		int id;
+		int idProduct = 0;
+		if(list!=null) {
+			last = list.getLastElement();
+			id = last.getId() + 1;
+		}else {
+			id = 1;
+			list = new LotController();
+		}
+		if(productList!=null) {
+			Product aux2 = null;
+			Lot data;
+			String productIds = "";
+			int index = 0;
+			do {
+				aux = productList.getProduct(index);
+				if(aux!=null)
+					productIds += "Id: " + aux.getId() + " |Nome: " + aux.getName() + "\n";
+				index++;
+			}while(aux!=null);
+			while(aux2 == null) {
+				idProduct = Integer.parseInt(JOptionPane.showInputDialog(productIds + "Insira o id do produto deste lote:"));
+				int n = productList.getIndex(idProduct);
+				if(n!=0) {
+					aux2 = productList.getProduct(n-1);
+				}else {
+					JOptionPane.showMessageDialog(null, "Id do produto inválido!", "Error",0);
+				}
+			}
+			int qtIn = Integer.parseInt(JOptionPane.showInputDialog("Insira a quantidade adiquirida:"));
+			int qtOut = 0;
+			double purcasheValue = Double.parseDouble(JOptionPane.showInputDialog("Insira o valor de compra (R$):"));
+			double saleValue = Double.parseDouble(JOptionPane.showInputDialog("Insira o valor de venda (R$):"));
+			Date date = new Date(System.currentTimeMillis());
+			data = new Lot(id, aux2,qtIn, qtOut, purcasheValue, saleValue, date);
+			list.addAndSave(data);
+		}else {
+			JOptionPane.showMessageDialog(null, "Registre produtos primeiro!", "Error",0);
+		}
 	}
 	
 	public void createSale() {

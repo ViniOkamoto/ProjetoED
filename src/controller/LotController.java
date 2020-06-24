@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import model.Lot;
 import model.NodeLot;
-import model.NodeProduct;
-import model.Product;
 
 public class LotController {
 	private NodeLot start;
@@ -108,5 +106,23 @@ public class LotController {
 			mostra = buffer.toString();
 		}
 		return mostra;
+	}
+	
+	public int size() {
+		NodeLot aux = this.start;
+		int cont = 0;
+		while(aux!=null) {
+			cont++;
+			aux = aux.getNext();
+		}
+		return cont;
+	}
+	
+	public Lot getLastElement() {
+		NodeLot aux = this.start;
+		while(aux.getNext()!=null) {
+			aux = aux.getNext();
+		}
+		return aux.getData();
 	}
 }
