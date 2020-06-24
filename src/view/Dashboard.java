@@ -3,18 +3,27 @@ package view;
 
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+
+import model.DashboardTableModel;
 
 
 public class Dashboard extends JFrame {
@@ -24,6 +33,7 @@ public class Dashboard extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTable table;
 
 	/**
 	 * Create the frame.
@@ -150,6 +160,8 @@ public class Dashboard extends JFrame {
 		
 		/*-------------------------menu------------------------------*/
 		
+		/*--------------------------Titulo---------------------------*/
+		
 		Color orange = new Color(219,153,80);
 		
 		JLabel lblRelatorio = new JLabel("Relat\u00F3rio");
@@ -158,5 +170,74 @@ public class Dashboard extends JFrame {
 		lblRelatorio.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRelatorio.setBounds(432, 33, 382, 71);
 		contentPane.add(lblRelatorio);
+		
+		/*--------------------------Titulo---------------------------*/
+		
+		/*--------------------------Tabela---------------------------*/
+		
+		table = new JTable();
+		table.setShowVerticalLines(false);
+		table.setRowHeight(32);
+		DashboardTableModel dataModel = new DashboardTableModel();
+		table.setModel(dataModel);
+		JTableHeader th = table.getTableHeader(); 
+		th.setPreferredSize(new Dimension(100, 40));
+		table.getColumnModel().getColumn(3).setPreferredWidth(180);
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (row%2==0) {
+                    setBackground(Color.LIGHT_GRAY);
+                    setForeground(Color.BLACK);
+                } else {
+                    boolean sel = isSelected;
+                    if (sel == true) {
+                        setBackground(getBackground());
+                        setForeground(getForeground());
+                    } else {
+                        setBackground(Color.WHITE);
+                        setForeground(Color.BLACK);
+                    }
+                }
+                return this;
+            }
+        });
+		contentPane.add(table);
+		JScrollPane scroll = new JScrollPane(table);
+		scroll.setBounds(328, 204, 608, 272);
+		contentPane.add(scroll);
+		
+		/*--------------------------Tabela---------------------------*/
+		
+		/*--------------------------Filtro---------------------------*/
+		
+		JComboBox<String> selectorFilterDate = new JComboBox<String>();
+		selectorFilterDate.addItem("All");
+		selectorFilterDate.addItem("Exemplo");
+		selectorFilterDate.setBounds(328, 171, 107, 23);
+		contentPane.add(selectorFilterDate);
+		
+		JLabel lblFilter_1 = new JLabel("Fitrar por data");
+		lblFilter_1.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblFilter_1.setBounds(328, 148, 107, 14);
+		contentPane.add(lblFilter_1);
+		
+		JComboBox<String> selectorFilterName = new JComboBox<String>();
+		selectorFilterName.addItem("All");
+		selectorFilterName.addItem("Exemplo");
+		selectorFilterName.setBounds(464, 170, 107, 23);
+		contentPane.add(selectorFilterName);
+		
+		
+		JLabel lblFilter_2 = new JLabel("Fitrar por nome");
+		lblFilter_2.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblFilter_2.setBounds(464, 146, 107, 14);
+		contentPane.add(lblFilter_2);
+		
+		/*--------------------------Filtro---------------------------*/
 	}
 }

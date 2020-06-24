@@ -22,6 +22,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 import model.ProductTableModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 public class ProductView extends JFrame {
 
@@ -154,6 +156,8 @@ public class ProductView extends JFrame {
 		
 		/*-------------------------menu------------------------------*/
 		
+		/*--------------------------Titulo---------------------------*/
+		
 		Color orange = new Color(219,153,80);
 		
 		JLabel lblProduct = new JLabel("Produto");
@@ -163,14 +167,19 @@ public class ProductView extends JFrame {
 		lblProduct.setBounds(432, 33, 382, 71);
 		contentPane.add(lblProduct);
 		
+		/*--------------------------Titulo---------------------------*/
+		
+		/*--------------------------Tabela---------------------------*/
+		
 		table = new JTable();
+		table.setLocation(20, 33);
 		table.setShowVerticalLines(false);
 		table.setRowHeight(32);
 		ProductTableModel dataModel = new ProductTableModel();
 		table.setModel(dataModel);
 		JTableHeader th = table.getTableHeader(); 
 		th.setPreferredSize(new Dimension(100, 40));
-		table.getColumnModel().getColumn(0).setPreferredWidth(10);
+		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.getColumnModel().getColumn(2).setPreferredWidth(180);
 		table.getColumnModel().getColumn(4).setPreferredWidth(30);
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
@@ -200,5 +209,50 @@ public class ProductView extends JFrame {
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setBounds(328, 204, 608, 272);
 		contentPane.add(scroll);
+		
+		JButton btnAddProduct = new JButton("Adicionar Produto");
+		btnAddProduct.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAddProduct.setBounds(779, 170, 157, 23);
+		contentPane.add(btnAddProduct);
+		
+		/*--------------------------Tabela---------------------------*/
+		
+		/*--------------------------Filtro---------------------------*/
+		
+		JComboBox<String> selectorFilterType = new JComboBox<String>();
+		selectorFilterType.addItem("All");
+		selectorFilterType.addItem("Exemplo");
+		selectorFilterType.setBounds(328, 171, 107, 23);
+		contentPane.add(selectorFilterType);
+		
+		JLabel lblFilter = new JLabel("Fitrar por Tipo");
+		lblFilter.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblFilter.setBounds(328, 148, 107, 14);
+		contentPane.add(lblFilter);
+		
+		JComboBox<String> selectorFilterName = new JComboBox<String>();
+		selectorFilterName.addItem("All");
+		selectorFilterName.addItem("Exemplo");
+		selectorFilterName.setBounds(464, 170, 107, 23);
+		contentPane.add(selectorFilterName);
+		
+		JLabel lblFilter_1 = new JLabel("Fitrar por nome");
+		lblFilter_1.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblFilter_1.setBounds(464, 146, 107, 14);
+		contentPane.add(lblFilter_1);
+		
+		JComboBox<String> selectorFilterBrand = new JComboBox<String>();
+		selectorFilterBrand.addItem("All");
+		selectorFilterBrand.addItem("Exemplo");
+		selectorFilterBrand.setBounds(600, 170, 107, 23);
+		contentPane.add(selectorFilterBrand);
+		
+		
+		JLabel lblFilter_2 = new JLabel("Fitrar por marca");
+		lblFilter_2.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblFilter_2.setBounds(600, 146, 107, 14);
+		contentPane.add(lblFilter_2);
+		
+		/*--------------------------Filtro---------------------------*/
 	}
 }

@@ -2,24 +2,34 @@ package view;
 
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+
+import model.LotTableModel;
 
 public class LotView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
+	private JTable table;
 
 	/**
 	 * Create the frame.
@@ -146,6 +156,8 @@ Color blue = new Color(72,94,136);
 		
 		/*-------------------------menu------------------------------*/
 		
+		/*--------------------------Titulo---------------------------*/
+		
 		Color orange = new Color(219,153,80);
 		
 		JLabel lblLot = new JLabel("Lote");
@@ -154,6 +166,68 @@ Color blue = new Color(72,94,136);
 		lblLot.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLot.setBounds(432, 33, 382, 71);
 		contentPane.add(lblLot);
+		
+		/*--------------------------Titulo---------------------------*/
+		
+		/*--------------------------Tabela---------------------------*/
+		
+		table = new JTable();
+		table.setShowVerticalLines(false);
+		table.setRowHeight(32);
+		LotTableModel dataModel = new LotTableModel();
+		table.setModel(dataModel);
+		JTableHeader th = table.getTableHeader(); 
+		th.setPreferredSize(new Dimension(100, 40));
+		table.getColumnModel().getColumn(0).setPreferredWidth(55);
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (row%2==0) {
+                    setBackground(Color.LIGHT_GRAY);
+                    setForeground(Color.BLACK);
+                } else {
+                    boolean sel = isSelected;
+                    if (sel == true) {
+                        setBackground(getBackground());
+                        setForeground(getForeground());
+                    } else {
+                        setBackground(Color.WHITE);
+                        setForeground(Color.BLACK);
+                    }
+                }
+                return this;
+            }
+        });
+		contentPane.add(table);
+		JScrollPane scroll = new JScrollPane(table);
+		scroll.setBounds(328, 204, 608, 272);
+		contentPane.add(scroll);
+		
+		JButton btnAddLot = new JButton("Adicionar Lote");
+		btnAddLot.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAddLot.setBounds(779, 170, 157, 23);
+		contentPane.add(btnAddLot);
+		
+		/*--------------------------Tabela---------------------------*/
+		
+		/*--------------------------Filtro---------------------------*/
+		
+		JComboBox<String> selectorFilterName = new JComboBox<String>();
+		selectorFilterName.addItem("All");
+		selectorFilterName.addItem("Exemplo");
+		selectorFilterName.setBounds(328, 171, 107, 23);
+		contentPane.add(selectorFilterName);
+		
+		JLabel lblFilter_1 = new JLabel("Fitrar por nome");
+		lblFilter_1.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblFilter_1.setBounds(328, 148, 107, 14);
+		contentPane.add(lblFilter_1);
+		
+		/*--------------------------Filtro---------------------------*/
 	}
 
 }
