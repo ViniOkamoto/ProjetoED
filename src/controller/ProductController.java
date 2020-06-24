@@ -22,6 +22,28 @@ public class ProductController{
          }
          return aux.getData();
      }
+     
+     public int getIndex(int id) {
+ 		NodeProduct aux = this.start;
+ 		boolean exist = false;
+ 		int pos = 1;
+ 		
+ 		if(id == aux.getData().getId()) {
+ 			exist = true;
+ 		}
+ 		while (aux != null && id != aux.getData().getId()  ) {
+ 			if(id == aux.getData().getId()) {
+ 	 			exist = true;
+ 	 		}
+ 			pos++;
+ 			aux = aux.getNext();
+ 		}
+ 		if(exist) {
+ 			return pos;
+ 		} else {
+ 			return 0;
+ 		}
+ 	}
    
 	public void addAndSave(Product data) {
 		NodeProduct n = new NodeProduct(data);
@@ -103,7 +125,7 @@ public class ProductController{
 		}
 	}
 	
-	public String mostrar() {
+	public String show() {
         if(this.start == null) {
             return null;
         }else {
@@ -120,23 +142,7 @@ public class ProductController{
         }
     }
 	
-	public int getIndex(int id) {
-		NodeProduct aux = this.start;
-		boolean exist = false;
-		int pos = 1;
-		while (id != aux.getData().getId() && aux != null) {
-			pos++;
-			aux = aux.getNext();
-		}
-		if(id == aux.getData().getId()) {
-			exist = true;
-		}
-		if(exist) {
-			return pos;
-		} else {
-			return 0;
-		}
-	}
+	
 	/*------------------------------------------------------------------------------------*/
 	
 	private int size(NodeProduct n) {

@@ -11,12 +11,12 @@ public class Lot {
 	private double purcasheValue;
 	private double saleValue;
 	
-	public Lot(int id, Product product, int qtIn, int qtOut, double purcasheValue, double saleValue ) {
+	public Lot(int id, Product product, int qtIn, int qtOut, double purcasheValue, double saleValue, Date date ) {
 		this.id = id;
 		this.product = product;
 		this.qtIn = qtIn;
 		this.qtOut = qtOut;
-		this.dateIn = new Date();
+		this.dateIn = date;
 		this.purcasheValue = purcasheValue;
 		this.saleValue = saleValue;
 	}

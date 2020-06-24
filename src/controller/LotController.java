@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import model.Lot;
 import model.NodeLot;
+import model.NodeProduct;
+import model.Product;
 
 public class LotController {
 	private NodeLot start;
@@ -11,6 +13,35 @@ public class LotController {
 	
 	public LotController() {
 		this.start = null;
+	}
+	
+	public Lot getLot(int x) {
+        NodeLot aux = this.start;
+        for(int i=0; i< x; i++) {
+            aux = aux.getNext();
+        }
+        if(aux == null) {
+       	 return null;
+        }
+        return aux.getData();
+    }
+	
+	public int getIndex(int id) {
+		NodeLot aux = this.start;
+		boolean exist = false;
+		int pos = 1;
+		while (id != aux.getData().getId() && aux != null) {
+			pos++;
+			aux = aux.getNext();
+		}
+		if(id == aux.getData().getId()) {
+			exist = true;
+		}
+		if(exist) {
+			return pos;
+		} else {
+			return 0;
+		}
 	}
 	
 	public void addAndSave(Lot data) {
@@ -64,17 +95,16 @@ public class LotController {
 	public String show() {
 		String mostra;
 		if(this.start == null) {
-			mostra = "A fila está vazia :/";
+			mostra = "A fila está vazia";
 		}else {
 			StringBuffer buffer = new StringBuffer();
-			buffer.append("{");
 			NodeLot aux = this.start;
 			while(aux!=null) {
-				buffer.append(aux.getData());
-				buffer.append(", ");
+				buffer.append("Codigo: " + aux.getData().getId() + " |IdProduto: " 
+			            + aux.getData().getProduct().getId() + " |qtdEntrada: " + aux.getData().getQtIn() + " |qtdSaida: " + aux.getData().getQtOut() + 
+			            " |valorCompra: " + aux.getData().getPurcasheValue() + " |valorVenda: " + aux.getData().getSaleValue() +  "\n");
 				aux = aux.getNext();
 			}
-			buffer.append("}");
 			mostra = buffer.toString();
 		}
 		return mostra;
