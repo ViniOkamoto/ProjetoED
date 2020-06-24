@@ -190,14 +190,8 @@ Color blue = new Color(72,94,136);
                     setBackground(Color.LIGHT_GRAY);
                     setForeground(Color.BLACK);
                 } else {
-                    boolean sel = isSelected;
-                    if (sel == true) {
-                        setBackground(getBackground());
-                        setForeground(getForeground());
-                    } else {
-                        setBackground(Color.WHITE);
-                        setForeground(Color.BLACK);
-                    }
+                	setBackground(Color.WHITE);
+                    setForeground(Color.BLACK);
                 }
                 return this;
             }

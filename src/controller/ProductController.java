@@ -87,9 +87,9 @@ public class ProductController{
 	public void removeMiddle(int pos) {
 		if(pos==1) {
 			removeStart();
-		}else if(pos == size(this.start) + 1) {
+		}else if(pos == size() + 1) {
 			removeLast();
-		}else if(pos <= size(this.start) && pos>0) {
+		}else if(pos <= size() && pos>0) {
 			NodeProduct aux = this.start;
 			for(int i=0; i<pos-1; i++) {
 				aux = aux.getNext();
@@ -137,9 +137,18 @@ public class ProductController{
 			return 0;
 		}
 	}
+	
+	public Product getLastElement() {
+		NodeProduct aux = this.start;
+		while(aux.getNext()!=null) {
+			aux = aux.getNext();
+		}
+		return aux.getData();
+	}
 	/*------------------------------------------------------------------------------------*/
 	
-	private int size(NodeProduct n) {
+	public int size() {
+		NodeProduct n = this.start;
 		int r = 0;
 		while(n.getNext()!=null) {
 			n = n.getNext();
