@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import model.Lot;
 import model.Product;
 
 public class DatabaseController {
@@ -20,12 +21,40 @@ public class DatabaseController {
         File dir = new File(path);
         if(!dir.exists() || !dir.isDirectory()) {
             if(dir.mkdir()) {
-                System.out.println("DiretÛrio Temp criado com sucesso!");
+                System.out.println("Diret√≥rio Temp criado com sucesso!");
             }else {
                 System.err.println("Error!");
             }
         }
     }
+	
+	public void saveLot(Lot data) throws IOException {
+        verifyDir();
+        String path = "C:\\databasePadaria\\lot.csv";
+        File file = new File(path);
+        if(verifyExistsData("lot")) {
+        	String save = data.getId() + ";" + data.getProduct().getId() + ";" + data.getPurcasheValue() + ";" + data.getSaleValue() + ";"
+       			 		+ data.getQtIn() + ";" + data.getQtOut() + ";" + data.getDateIn() + "\n"; 
+            FileWriter writer = new FileWriter(file, true);
+            PrintWriter printer = new PrintWriter(writer);
+            printer.write(save);
+            printer.flush();
+            printer.close();
+            writer.close();
+        }else {
+            String save = "Id;Id do Produto;Valor de Compra;Valor de Venda;Quantidade de Entrada;Quantidade de Sa√≠da;Data de Entrada\n";
+            save += data.getId() + ";" + data.getProduct().getId() + ";" + data.getPurcasheValue() + ";" + data.getSaleValue() + ";"
+    			 + data.getQtIn() + ";" + data.getQtOut() + ";" + data.getDateIn() + "\n";
+            FileWriter writer = new FileWriter(file);
+            PrintWriter printer = new PrintWriter(writer);
+            printer.write(save);
+            printer.flush();
+            printer.close();
+            writer.close();
+        }
+        System.out.println("Lote salvo com sucesso!");
+    }
+	
 
     // ------------- Product DATABASE --------
 	public void saveProduct(Product data) throws IOException {
@@ -74,7 +103,7 @@ public class DatabaseController {
             flow.close();
             stream.close();
         }else {
-            System.err.println("N„o existem cadastros!");
+            System.err.println("N√£o existem cadastros!");
         }
         return productController;
     }
@@ -111,7 +140,7 @@ public class DatabaseController {
 	        writer.close();
 	        System.out.println("Produto removido com sucesso!");
 		} else {
-			System.out.println("Produto n„o encontrado");
+			System.out.println("Produto n√£o encontrado");
 		}
 	}
 // ------------ End Product Database --------------	
