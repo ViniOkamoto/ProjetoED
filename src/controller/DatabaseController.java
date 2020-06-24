@@ -21,7 +21,7 @@ public class DatabaseController {
         File dir = new File(path);
         if(!dir.exists() || !dir.isDirectory()) {
             if(dir.mkdir()) {
-                System.out.println("Diretório Temp criado com sucesso!");
+                System.out.println("Diret�rio databasePadaria criado com sucesso!");
             }else {
                 System.err.println("Error!");
             }
@@ -102,10 +102,11 @@ public class DatabaseController {
             reader.close();
             flow.close();
             stream.close();
+            return productController;
         }else {
             System.err.println("Não existem cadastros!");
+            return null;
         }
-        return productController;
     }
 	
 	private String preparar (ProductController controller) {
