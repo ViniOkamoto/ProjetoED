@@ -6,9 +6,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import model.Lot;
-import model.NodeProduct;
 import model.NodeSale;
-import model.Product;
 import model.Sale;
 
 public class SaleController {
@@ -156,11 +154,23 @@ public class SaleController {
 			return aux.getData();
 		}
 		
-		public void addFromView(LotController lotController,int id, int idProduct, int qtd) {
+		public void addFromView(LotController lotController,int id, int idProduct, int qtd, Date date) {
 			Lot lot = lotController.getLotByProduct(idProduct);
 			if(lot != null) {
-				Sale sale = new Sale(id, lot, qtd, new Date());
-				this.addAndSave(sale);
+				int r = lotController.editLot(lot.getId(), qtd);
+				if(r==0) {
+					Sale sale = new Sale(id, lot, qtd, date);
+					this.addAndSave(sale);
+					DatabaseController database = new DatabaseController();
+					try {
+						database.editLot(lotController);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Lote não têm a quantidade para consumir!","Error",0);
+				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Insira lotes primeiro!","Error",0);
 			}
