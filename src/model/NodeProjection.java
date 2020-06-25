@@ -1,6 +1,5 @@
 package model;
 
-import view.Dashboard;
 
 public class NodeProjection {
 	private Projection data;

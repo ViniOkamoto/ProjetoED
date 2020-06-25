@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +25,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
+import controller.DatabaseController;
+import controller.SaleController;
 import model.SaleTableModel;
 
 public class SaleView extends JFrame {
@@ -30,11 +34,20 @@ public class SaleView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
+	private SaleTableModel dataModel;
 
 	/**
 	 * Create the frame.
 	 */
 	public SaleView() {
+		SaleController list = new SaleController();
+		DatabaseController database = new DatabaseController();
+		try {
+			list = database.getDatasSale(list);
+		} catch (IOException | ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(10, 10, 1024, 720);
 		contentPane = new JPanel();
@@ -174,7 +187,7 @@ Color blue = new Color(72,94,136);
 		table = new JTable();
 		table.setShowVerticalLines(false);
 		table.setRowHeight(32);
-		SaleTableModel dataModel = new SaleTableModel();
+		dataModel = new SaleTableModel(list);
 		table.setModel(dataModel);
 		JTableHeader th = table.getTableHeader(); 
 		th.setPreferredSize(new Dimension(100, 40));
