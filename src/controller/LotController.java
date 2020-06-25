@@ -152,8 +152,17 @@ public class LotController {
 		boolean exist = false;
 		while(aux.getData().getProduct().getId() != id && aux != null) {
 			aux = aux.getNext();
+			if(aux==null) {
+				break;
+			}
 			while(aux.getData().getQtIn() == aux.getData().getQtOut() && aux != null) {
 				aux = aux.getNext();
+				if(aux==null) {
+					break;
+				}
+			}
+			if(aux==null) {
+				break;
 			}
 		}
 		if(aux!=null) {

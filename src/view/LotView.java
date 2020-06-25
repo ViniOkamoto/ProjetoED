@@ -15,7 +15,6 @@ import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -241,20 +240,6 @@ Color blue = new Color(72,94,136);
 		
 		/*--------------------------Tabela---------------------------*/
 		
-		/*--------------------------Filtro---------------------------*/
-		
-		JComboBox<String> selectorFilterName = new JComboBox<String>();
-		selectorFilterName.addItem("All");
-		selectorFilterName.addItem("Exemplo");
-		selectorFilterName.setBounds(328, 171, 107, 23);
-		contentPane.add(selectorFilterName);
-		
-		JLabel lblFilter_1 = new JLabel("Fitrar por nome");
-		lblFilter_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblFilter_1.setBounds(328, 148, 107, 14);
-		contentPane.add(lblFilter_1);
-		
-		/*--------------------------Filtro---------------------------*/
 	}
 
 }

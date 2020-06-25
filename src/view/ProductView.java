@@ -12,7 +12,6 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -276,42 +275,6 @@ public class ProductView extends JFrame {
 		
 		/*--------------------------Tabela---------------------------*/
 		
-		/*--------------------------Filtro---------------------------*/
 		
-		JComboBox<String> selectorFilterType = new JComboBox<String>();
-		selectorFilterType.addItem("All");
-		selectorFilterType.addItem("Exemplo");
-		selectorFilterType.setBounds(328, 171, 107, 23);
-		contentPane.add(selectorFilterType);
-		
-		JLabel lblFilter = new JLabel("Fitrar por Tipo");
-		lblFilter.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblFilter.setBounds(328, 148, 107, 14);
-		contentPane.add(lblFilter);
-		
-		JComboBox<String> selectorFilterName = new JComboBox<String>();
-		selectorFilterName.addItem("All");
-		selectorFilterName.addItem("Exemplo");
-		selectorFilterName.setBounds(464, 170, 107, 23);
-		contentPane.add(selectorFilterName);
-		
-		JLabel lblFilter_1 = new JLabel("Fitrar por nome");
-		lblFilter_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblFilter_1.setBounds(464, 146, 107, 14);
-		contentPane.add(lblFilter_1);
-		
-		JComboBox<String> selectorFilterBrand = new JComboBox<String>();
-		selectorFilterBrand.addItem("All");
-		selectorFilterBrand.addItem("Exemplo");
-		selectorFilterBrand.setBounds(600, 170, 107, 23);
-		contentPane.add(selectorFilterBrand);
-		
-		
-		JLabel lblFilter_2 = new JLabel("Fitrar por marca");
-		lblFilter_2.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblFilter_2.setBounds(600, 146, 107, 14);
-		contentPane.add(lblFilter_2);
-		
-		/*--------------------------Filtro---------------------------*/
 	}
 }
