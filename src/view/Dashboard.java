@@ -51,6 +51,9 @@ public class Dashboard extends JFrame {
 		DatabaseController database = new DatabaseController();
 		try {
 			list = database.getDatasProjection(list);
+			if(list!=null) {
+				list.sort();
+			}
 		} catch (IOException | ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -234,6 +237,8 @@ public class Dashboard extends JFrame {
 					Dashboard dashboard = new Dashboard();
 					dashboard.setVisible(true);
 					dispose();
+				}else {
+					list.sort();
 				}
 				dataModel.addRow();
 			}
