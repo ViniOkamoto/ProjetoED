@@ -117,6 +117,24 @@ public class LotController {
 		return cont;
 	}
 	
+	public Lot getLotByProduct(int id) {
+		NodeLot aux = this.start;
+		boolean exist = false;
+		while(aux.getData().getProduct().getId() != id && aux != null) {
+			aux = aux.getNext();
+			while(aux.getData().getQtIn() == aux.getData().getQtOut() && aux != null) {
+				aux = aux.getNext();
+			}
+		}
+		if(aux.getData().getProduct().getId() != id) {
+			exist = true;
+		}
+		if(exist) {
+			return aux.getData();			
+		}
+		return null;
+	}
+	
 	public Lot getLastElement() {
 		NodeLot aux = this.start;
 		while(aux.getNext()!=null) {

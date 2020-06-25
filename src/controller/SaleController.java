@@ -1,7 +1,11 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Date;
 
+import javax.swing.JOptionPane;
+
+import model.Lot;
 import model.NodeProduct;
 import model.NodeSale;
 import model.Product;
@@ -150,6 +154,16 @@ public class SaleController {
 				aux = aux.getNext();
 			}
 			return aux.getData();
+		}
+		
+		public void addFromView(LotController lotController,int id, int idProduct, int qtd) {
+			Lot lot = lotController.getLotByProduct(idProduct);
+			if(lot != null) {
+				Sale sale = new Sale(id, lot, qtd, new Date());
+				this.addAndSave(sale);
+			} else {
+				JOptionPane.showMessageDialog(null, "Insira lotes primeiro!","Error",0);
+			}
 		}
 		/*------------------------------------------------------------------------------------*/
 		
