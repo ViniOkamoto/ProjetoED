@@ -15,6 +15,8 @@ import java.util.Locale;
 
 import model.Lot;
 import model.Product;
+import model.Projection;
+import model.Sale;
 
 public class DatabaseController {
 	
@@ -26,12 +28,141 @@ public class DatabaseController {
         File dir = new File(path);
         if(!dir.exists() || !dir.isDirectory()) {
             if(dir.mkdir()) {
-                System.out.println("Diretório databasePadaria criado com sucesso!");
+                System.out.println("Diretï¿½rio databasePadaria criado com sucesso!");
             }else {
                 System.err.println("Error!");
             }
         }
     }
+	//----------- Projection DATABASE ----------
+	public void saveProjection(Projection data) throws IOException {
+        verifyDir();
+        String path = "C:\\databasePadaria\\projection.csv";
+        File file = new File(path);
+        if(verifyExistsData("projection")) {
+        	String save = data.getId() + ";" + data.getProduct().getId()+ ";" + data.getAverage() + ";" + data.getReport()  + ";"
+       			 + data.getDate() + "\n";
+            FileWriter writer = new FileWriter(file, true);
+            PrintWriter printer = new PrintWriter(writer);
+            printer.write(save);
+            printer.flush();
+            printer.close();
+            writer.close();
+        }else {
+            String save = "Id;Id do Produto;Média;Mensagem;Data\n";
+            save += data.getId() + ";" + data.getProduct().getId()+ ";" + data.getAverage() + ";" + data.getReport()  + ";"
+          			 + data.getDate() + "\n";
+            FileWriter writer = new FileWriter(file);
+            PrintWriter printer = new PrintWriter(writer);
+            printer.write(save);
+            printer.flush();
+            printer.close();
+            writer.close();
+        }
+        System.out.println("ProjeÃ§Ã£o salva com sucesso!");
+    }
+	
+	public ProjectionController getDatasProjection(ProjectionController projectionController) throws IOException, ParseException {
+        verifyDir();
+        int indexProduct;
+        ProductController productController = this.getDatasProduct(new ProductController());
+        Projection projection;
+        Product product;
+        DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
+        String path = "C:\\databasePadaria\\projection.csv";
+        File file = new File(path);
+        if(verifyExistsData("projection")) {
+            FileInputStream stream = new FileInputStream(file);
+            InputStreamReader flow = new InputStreamReader(stream);
+            BufferedReader reader = new BufferedReader(flow);
+            String line = reader.readLine();
+            line = reader.readLine();
+            while(line!=null) {
+                String [] auxs = line.split(";");
+                indexProduct = productController.getIndex(Integer.parseInt(auxs[1]));
+                product = productController.getProduct(indexProduct-1);
+                Date result = df.parse(auxs[4]);
+                projection = new Projection(Integer.parseInt(auxs[0]), product, Double.parseDouble(auxs[2]), auxs[3] , result);
+                projectionController.add(projection);
+                line = reader.readLine();
+            }
+            reader.close();
+            flow.close();
+            stream.close();
+            return projectionController;
+        }else {
+            System.err.println("NÃ£o existem cadastros!");
+            return null;
+        }
+       
+    }
+	
+	
+
+	//----------- End Projection DATABASE -------
+    //----------- Sale DATABASE --------
+    public void saveSale(Sale data) throws IOException {
+        verifyDir();
+        String path = "C:\\databasePadaria\\sale.csv";
+        File file = new File(path);
+        if(verifyExistsData("sale")) {
+        	String save = data.getId() + ";" + data.getLot().getId() + ";" + data.getQtOut() + ";" + data.getTotal()  + ";"
+       			 + data.getDate() + "\n";
+            FileWriter writer = new FileWriter(file, true);
+            PrintWriter printer = new PrintWriter(writer);
+            printer.write(save);
+            printer.flush();
+            printer.close();
+            writer.close();
+        }else {
+            String save = "Id;Id do Lote;Quantidade Vendida;Total;Data\n";
+            save += data.getId() + ";" + data.getLot().getId() + ";" + data.getQtOut() + ";" + data.getTotal()  + ";"
+          			 + data.getDate() + "\n";
+            FileWriter writer = new FileWriter(file);
+            PrintWriter printer = new PrintWriter(writer);
+            printer.write(save);
+            printer.flush();
+            printer.close();
+            writer.close();
+        }
+        System.out.println("Venda salva com sucesso!");
+    }
+	
+	public SaleController getDatasSale(SaleController saleController) throws IOException, ParseException {
+        verifyDir();
+        int indexLot;
+        LotController lotController = this.getDatasLote(new LotController());
+        Sale sale;
+        Lot lot;
+        DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
+        String path = "C:\\databasePadaria\\sale.csv";
+        File file = new File(path);
+        if(verifyExistsData("sale")) {
+            FileInputStream stream = new FileInputStream(file);
+            InputStreamReader flow = new InputStreamReader(stream);
+            BufferedReader reader = new BufferedReader(flow);
+            String line = reader.readLine();
+            line = reader.readLine();
+            while(line!=null) {
+                String [] auxs = line.split(";");
+                indexLot = lotController.getIndex(Integer.parseInt(auxs[1]));
+                lot = lotController.getLot(indexLot-1);
+                Date result = df.parse(auxs[4]);
+                sale = new Sale(Integer.parseInt(auxs[0]), lot, Integer.parseInt(auxs[2]), result);
+                saleController.add(sale);
+                line = reader.readLine();
+            }
+            reader.close();
+            flow.close();
+            stream.close();
+            return saleController;
+        }else {
+            System.err.println("NÃ£o existem cadastros!");
+            return null;
+        }
+       
+    }
+    //---------- End Sale DATABASE ------
 	// -------- Lot DATABASE ----------
 	public void saveLot(Lot data) throws IOException {
         verifyDir();
@@ -111,7 +242,7 @@ public class DatabaseController {
 	        writer.close();
 	        System.out.println("Lote removido com sucesso!");
 		} else {
-			System.out.println("Não existe cadastro");
+			System.out.println("Nï¿½o existe cadastro");
 		}
 	}
 	

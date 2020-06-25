@@ -7,7 +7,6 @@ import model.NodeLot;
 
 public class LotController {
 	private NodeLot start;
-	//private int id;
 	
 	public LotController() {
 		this.start = null;

@@ -3,16 +3,26 @@ package model;
 import java.util.Date;
 
 public class Sale {
+	private int id;
 	private Lot lot;
 	private int qtOut;
 	private double total;
 	private Date date;
 	
-	public Sale(Lot lot, int qtOut, double total) {
+	public Sale(int id, Lot lot, int qtOut, Date date) {
+		this.id = id;
 		this.lot = lot;
 		this.qtOut = qtOut;
-		this.total = total;
-		this.date = new Date();
+		this.total = (qtOut * lot.getSaleValue());
+		this.date = date;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Lot getLot() {
