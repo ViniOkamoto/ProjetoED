@@ -9,9 +9,12 @@ import javax.swing.JOptionPane;
 import controller.DatabaseController;
 import controller.LotController;
 import controller.ProductController;
+import controller.ProjectionController;
 import controller.SaleController;
+import controller.XLogic;
 import model.Lot;
 import model.Product;
+import model.Projection;
 import model.Sale;
 
 public class Create {
@@ -135,6 +138,114 @@ public class Create {
 			list.addFromView(lotList, id, aux2.getId(), qtd, date);
 		}else {
 			JOptionPane.showMessageDialog(null, "Insira lotes primeiro!","Error",0);
+		}
+	}
+	
+	public void createProjection(ProjectionController list) {
+		Projection data;
+		ProductController productList = new ProductController();
+		LotController lotList = new LotController();
+		SaleController saleList = new SaleController();
+		DatabaseController database = new DatabaseController();
+		try {
+			productList = database.getDatasProduct(productList);
+			lotList = database.getDatasLote(lotList);
+			saleList = database.getDatasSale(saleList);
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		}
+		if(productList == null) {
+			JOptionPane.showMessageDialog(null, "Adicione algum produto antes","Error",0);
+		}else if(lotList == null) {
+			JOptionPane.showMessageDialog(null, "Adicione algum lot antes","Error",0);
+		}else{
+			if(list!=null) {
+				if(list.getLastElement().getDate().equals(new Date(System.currentTimeMillis()))) {
+					JOptionPane.showMessageDialog(null, "Projeção de hoje ja foi gerada","Error",0);
+				}else {
+					int id = list.getLastElement().getId() + 1;
+					int index = 0;
+					LotController lotList2 = new LotController();
+					Lot aux = lotList.getLot(index);
+					while(aux!=null) {
+						if(!(aux.getDateIn().before(list.getLastElement().getDate())) && 
+								!(aux.getDateIn().equals(list.getLastElement().getDate()))) {
+							lotList2.add(aux);
+						}
+						index++;
+						aux = lotList.getLot(index);
+					}
+					if(lotList2.getLot(0)==null) {
+						JOptionPane.showMessageDialog(null, "Lotes ja tiveram suas projeções","Error",0);
+					}else {
+						int indexProduct = 0;
+						int indexLot = 0;
+						int avarage = 0;
+						Product product = productList.getProduct(indexProduct);
+						Lot lot;
+						while(product!=null) {
+							boolean exist = false;
+							lot = lotList2.getLot(indexLot);
+							if(lot !=null) {
+								exist = true;
+							}
+							while(lot!=null) {
+								if(lot.getProduct().getId()==product.getId()) {
+									avarage += lot.getQtIn()-lot.getQtOut();
+								}
+								indexLot++;
+								lot = lotList2.getLot(indexLot);
+							}
+							indexLot = 0;
+							Date date = new Date(System.currentTimeMillis());
+							if(exist) {
+								XLogic xlogic = new XLogic();
+								data = new Projection(id, product, avarage, "", date);
+								data = xlogic.LogicaX(data, xlogic.media(lotList2));
+								list.addAndSave(data);
+							}
+							id++;
+							indexProduct++;
+							product = productList.getProduct(indexProduct);
+						}
+					}
+				}
+			}else {
+				list = new ProjectionController();
+				int id = 1;
+				int indexProduct = 0;
+				int indexLot = 0;
+				int avarage = 0;
+				Product product = productList.getProduct(indexProduct);
+				Lot lot;
+				while(product!=null) {
+					boolean exist = false;
+					lot = lotList.getLot(indexLot);
+					if(lot !=null) {
+						exist = true;
+					}
+					while(lot!=null) {
+						if(lot.getProduct().getId()==product.getId()) {
+							avarage += lot.getQtIn()-lot.getQtOut();
+						}
+						indexLot++;
+						lot = lotList.getLot(indexLot);
+					}
+					indexLot = 0;
+					Date date = new Date(System.currentTimeMillis());
+					if(exist) {
+						XLogic xlogic = new XLogic();
+						data = new Projection(id, product, avarage, "", date);
+						data = xlogic.LogicaX(data, xlogic.media(lotList));
+						list.addAndSave(data);
+					}
+					avarage = 0;
+					id++;
+					indexProduct++;
+					product = productList.getProduct(indexProduct);
+					
+				}
+			}
 		}
 	}
 }

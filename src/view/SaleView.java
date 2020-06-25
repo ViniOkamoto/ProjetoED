@@ -15,7 +15,6 @@ import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -240,33 +239,6 @@ Color blue = new Color(72,94,136);
 		contentPane.add(btnAddSale);
 		
 		/*--------------------------Tabela---------------------------*/
-		
-		/*--------------------------Filtro---------------------------*/
-		
-		JComboBox<String> selectorFilterDate = new JComboBox<String>();
-		selectorFilterDate.addItem("All");
-		selectorFilterDate.addItem("Exemplo");
-		selectorFilterDate.setBounds(328, 171, 107, 23);
-		contentPane.add(selectorFilterDate);
-		
-		JLabel lblFilter_1 = new JLabel("Fitrar por data");
-		lblFilter_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblFilter_1.setBounds(328, 148, 107, 14);
-		contentPane.add(lblFilter_1);
-		
-		JComboBox<String> selectorFilterName = new JComboBox<String>();
-		selectorFilterName.addItem("All");
-		selectorFilterName.addItem("Exemplo");
-		selectorFilterName.setBounds(464, 170, 107, 23);
-		contentPane.add(selectorFilterName);
-		
-		
-		JLabel lblFilter_2 = new JLabel("Fitrar por nome");
-		lblFilter_2.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblFilter_2.setBounds(464, 146, 107, 14);
-		contentPane.add(lblFilter_2);
-		
-		/*--------------------------Filtro---------------------------*/
 	}
 
 }

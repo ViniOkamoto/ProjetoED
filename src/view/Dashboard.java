@@ -6,12 +6,16 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +27,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
+import controller.DatabaseController;
+import controller.ProjectionController;
 import model.DashboardTableModel;
 
 
@@ -34,11 +40,21 @@ public class Dashboard extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
+	private DashboardTableModel dataModel;
+	private ProjectionController list;
 
 	/**
 	 * Create the frame.
 	 */
 	public Dashboard() {
+		list = new ProjectionController();
+		DatabaseController database = new DatabaseController();
+		try {
+			list = database.getDatasProjection(list);
+		} catch (IOException | ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(10, 10, 1024, 720);
 		contentPane = new JPanel();
@@ -178,7 +194,7 @@ public class Dashboard extends JFrame {
 		table = new JTable();
 		table.setShowVerticalLines(false);
 		table.setRowHeight(32);
-		DashboardTableModel dataModel = new DashboardTableModel();
+		dataModel = new DashboardTableModel(list);
 		table.setModel(dataModel);
 		JTableHeader th = table.getTableHeader(); 
 		th.setPreferredSize(new Dimension(100, 40));
@@ -205,33 +221,28 @@ public class Dashboard extends JFrame {
 		scroll.setBounds(328, 204, 608, 272);
 		contentPane.add(scroll);
 		
+		JButton btnAdd = new JButton("Gerar relatório");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean newTable = false;
+				if(list == null) {
+					newTable = true;
+				}
+				Create create = new Create();
+				create.createProjection(list);
+				if(newTable) {
+					Dashboard dashboard = new Dashboard();
+					dashboard.setVisible(true);
+					dispose();
+				}
+				dataModel.addRow();
+			}
+		});
+		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAdd.setBounds(779, 170, 157, 23);
+		contentPane.add(btnAdd);
 		/*--------------------------Tabela---------------------------*/
 		
-		/*--------------------------Filtro---------------------------*/
 		
-		JComboBox<String> selectorFilterDate = new JComboBox<String>();
-		selectorFilterDate.addItem("All");
-		selectorFilterDate.addItem("Exemplo");
-		selectorFilterDate.setBounds(328, 171, 107, 23);
-		contentPane.add(selectorFilterDate);
-		
-		JLabel lblFilter_1 = new JLabel("Fitrar por data");
-		lblFilter_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblFilter_1.setBounds(328, 148, 107, 14);
-		contentPane.add(lblFilter_1);
-		
-		JComboBox<String> selectorFilterName = new JComboBox<String>();
-		selectorFilterName.addItem("All");
-		selectorFilterName.addItem("Exemplo");
-		selectorFilterName.setBounds(464, 170, 107, 23);
-		contentPane.add(selectorFilterName);
-		
-		
-		JLabel lblFilter_2 = new JLabel("Fitrar por nome");
-		lblFilter_2.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblFilter_2.setBounds(464, 146, 107, 14);
-		contentPane.add(lblFilter_2);
-		
-		/*--------------------------Filtro---------------------------*/
 	}
 }
