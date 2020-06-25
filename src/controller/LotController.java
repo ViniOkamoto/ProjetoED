@@ -23,6 +23,17 @@ public class LotController {
         return aux.getData();
     }
 	
+	private NodeLot getNodeLot(int x) {
+        NodeLot aux = this.start;
+        for(int i=0; i< x; i++) {
+            aux = aux.getNext();
+        }
+        if(aux == null) {
+       	 return null;
+        }
+        return aux;
+    }
+	
 	public int getIndex(int id) {
 		NodeLot aux = this.start;
 		boolean exist = false;
@@ -75,6 +86,22 @@ public class LotController {
 		}
 	}
 	
+	public int editLot(int id, int neg) {
+		int r=0;
+		int index = getIndex(id);
+		Lot lot = getLot(index-1);
+		if((lot.getQtIn()-lot.getQtOut())<neg) {
+			neg = neg-(lot.getQtIn()-lot.getQtOut());
+			lot.setQtOut(neg + lot.getQtOut());
+			r=neg;
+		}else {
+			lot.setQtOut(neg+lot.getQtOut());
+			NodeLot aux = getNodeLot(index-1);
+			aux.setData(lot);
+		}
+		return r;
+	}
+	
 	public NodeLot remove() {
 		if(this.start==null) {
 			System.err.println("A lista está vazia");
@@ -119,6 +146,9 @@ public class LotController {
 	
 	public Lot getLotByProduct(int id) {
 		NodeLot aux = this.start;
+		if(aux.getData().getQtIn() == aux.getData().getQtOut()) {
+			aux = aux.getNext();
+		}
 		boolean exist = false;
 		while(aux.getData().getProduct().getId() != id && aux != null) {
 			aux = aux.getNext();
@@ -126,12 +156,15 @@ public class LotController {
 				aux = aux.getNext();
 			}
 		}
-		if(aux.getData().getProduct().getId() != id) {
-			exist = true;
+		if(aux!=null) {
+			if(aux.getData().getProduct().getId() == id) {
+				exist = true;
+			}
+			if(exist) {
+				return aux.getData();			
+			}
 		}
-		if(exist) {
-			return aux.getData();			
-		}
+		
 		return null;
 	}
 	

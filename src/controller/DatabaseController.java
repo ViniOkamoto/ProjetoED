@@ -191,6 +191,20 @@ public class DatabaseController {
         System.out.println("Lote salvo com sucesso!");
     }
 	
+	public void editLot(LotController lotController) throws IOException {
+		verifyDir();
+		String path = "C:\\databasePadaria\\lot.csv";
+	    File file = new File(path);
+	    String save = "Id;Id do Produto;Quantidade de Entrada;Quantidade de Saida;Valor de Compra;Valor de Venda;Data de Entrada\n";
+        save += prepareLot(lotController);
+        FileWriter writer = new FileWriter(file);
+        PrintWriter printer = new PrintWriter(writer);
+        printer.write(save);
+        printer.flush();
+        printer.close();
+        writer.close();
+	}
+	
 	public LotController getDatasLote(LotController lotController) throws IOException, ParseException {
         verifyDir();
         int indexProduct;
@@ -232,7 +246,7 @@ public class DatabaseController {
 			verifyDir();
 		    String path = "C:\\databasePadaria\\lot.csv";
 		    File file = new File(path);
-		    String save = "Id;Id do Produto;Quantidade de Entrada;Quantidade de Saída;Valor de Compra;Valor de Venda;Data de Entrada\n";
+		    String save = "Id;Id do Produto;Quantidade de Entrada;Quantidade de Saida;Valor de Compra;Valor de Venda;Data de Entrada\n";
 	        save += prepareLot(controller);
 	        FileWriter writer = new FileWriter(file);
 	        PrintWriter printer = new PrintWriter(writer);

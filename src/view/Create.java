@@ -91,10 +91,13 @@ public class Create {
 	
 	public void createSale(SaleController list) {
 		Sale last;
+		Product aux;
 		DatabaseController database = new DatabaseController();
 		LotController lotList = new LotController();
+		ProductController productList = new ProductController();
 		try {
 			lotList = database.getDatasLote(lotList);
+			productList = database.getDatasProduct(productList);
 		} catch (IOException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,11 +107,32 @@ public class Create {
 			last = list.getLastElement();
 			id = last.getId()+1;
 		}else {
-			id = 0;
+			id = 1;
 			list = new SaleController();
 		}
 		if(lotList!=null) {
-			
+			Product aux2 = null;
+			int index = 0;
+			int idProduct;
+			String LotIds = "";
+			do {
+				aux = productList.getProduct(index);
+				if(aux!=null)
+					LotIds += "Id: " + aux.getId() + " |Nome: " + aux.getName() + "\n";
+				index++;
+			}while(aux!=null);
+			while(aux2 == null) {
+				idProduct = Integer.parseInt(JOptionPane.showInputDialog(LotIds + "Insira o id do produto:"));
+				int n = productList.getIndex(idProduct);
+				if(n!=0) {
+					aux2 = productList.getProduct(n-1);
+				}else {
+					JOptionPane.showMessageDialog(null, "Id do lot inválido!", "Error",0);
+				}
+			}
+			int qtd = Integer.parseInt(JOptionPane.showInputDialog("Insira a quantidade que irá sair:"));
+			Date date = new Date(System.currentTimeMillis());
+			list.addFromView(lotList, id, aux2.getId(), qtd, date);
 		}else {
 			JOptionPane.showMessageDialog(null, "Insira lotes primeiro!","Error",0);
 		}

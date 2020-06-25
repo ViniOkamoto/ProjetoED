@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -35,12 +37,13 @@ public class SaleView extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private SaleTableModel dataModel;
+	private SaleController list;
 
 	/**
 	 * Create the frame.
 	 */
 	public SaleView() {
-		SaleController list = new SaleController();
+		list = new SaleController();
 		DatabaseController database = new DatabaseController();
 		try {
 			list = database.getDatasSale(list);
@@ -216,6 +219,22 @@ Color blue = new Color(72,94,136);
 		contentPane.add(scroll);
 		
 		JButton btnAddSale = new JButton("Adicionar Saída");
+		btnAddSale.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean newTable = false;
+				if(list == null) {
+					newTable = true;
+				}
+				Create create = new Create();
+				create.createSale(list);
+				if(newTable) {
+					SaleView sale = new SaleView();
+					sale.setVisible(true);
+					dispose();
+				}
+				dataModel.addRow();
+			}
+		});
 		btnAddSale.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnAddSale.setBounds(779, 170, 157, 23);
 		contentPane.add(btnAddSale);
