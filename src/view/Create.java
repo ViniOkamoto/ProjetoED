@@ -1,6 +1,7 @@
 package view;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -8,8 +9,10 @@ import javax.swing.JOptionPane;
 import controller.DatabaseController;
 import controller.LotController;
 import controller.ProductController;
+import controller.SaleController;
 import model.Lot;
 import model.Product;
+import model.Sale;
 
 public class Create {
 	public Create() {
@@ -86,7 +89,28 @@ public class Create {
 		}
 	}
 	
-	public void createSale() {
-		
+	public void createSale(SaleController list) {
+		Sale last;
+		DatabaseController database = new DatabaseController();
+		LotController lotList = new LotController();
+		try {
+			lotList = database.getDatasLote(lotList);
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int id;
+		if(list != null) {
+			last = list.getLastElement();
+			id = last.getId()+1;
+		}else {
+			id = 0;
+			list = new SaleController();
+		}
+		if(lotList!=null) {
+			
+		}else {
+			JOptionPane.showMessageDialog(null, "Insira lotes primeiro!","Error",0);
+		}
 	}
 }

@@ -2,6 +2,8 @@ package model;
 
 import javax.swing.table.AbstractTableModel;
 
+import controller.SaleController;
+
 public class SaleTableModel extends AbstractTableModel {
 
 	/**
@@ -9,6 +11,10 @@ public class SaleTableModel extends AbstractTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String [] columns = {"Código","Data","Produto","Quantidade","Total(R$)","Opções"};
+	private SaleController list;
+	public SaleTableModel(SaleController list) {
+		this.list = list;
+	}
 	
 	@Override
 	public String getColumnName(int column) {
@@ -21,7 +27,10 @@ public class SaleTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return 5;
+		if(list!=null)
+			return list.size();
+		else
+			return 0;
 	}
 
 	@Override
