@@ -3,16 +3,26 @@ package model;
 import java.util.Date;
 
 public class Projection {
+	private int id;
 	private Product product;
 	private double average;
 	private String report;
 	private Date date;
 	
-	public Projection(Product product, double average, String report) {
+	public Projection(int id,Product product, double average, String report, Date date) {
+		this.id = id;
 		this.product = product;
 		this.average = average;
 		this.report = report;
-		this.date = new Date();
+		this.date = date;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Product getProduct() {

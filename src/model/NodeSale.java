@@ -1,21 +1,21 @@
 package model;
 
 public class NodeSale {
-	private int data;
+	private Sale data;
 	private NodeSale next;
 	private NodeSale before;
 	
-	public NodeSale(int data) {
+	public NodeSale(Sale data) {
 		this.data = data;
 		this.next = null;
 		this.before = null;
 	}
 
-	public int getData() {
+	public Sale getData() {
 		return data;
 	}
 
-	public void setData(int data) {
+	public void setData(Sale data) {
 		this.data = data;
 	}
 

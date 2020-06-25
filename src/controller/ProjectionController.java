@@ -2,20 +2,18 @@ package controller;
 
 import java.io.IOException;
 
-import model.NodeProduct;
-import model.NodeSale;
-import model.Product;
-import model.Sale;
+import model.NodeProjection;
+import model.Projection;
 
-public class SaleController {
-	private NodeSale start;
+public class ProjectionController {
+	private NodeProjection start;
 	
-	public SaleController() {
+	public ProjectionController() {
 		this.start = null;
 	}
 	
-	   public Sale getSale(int x) {
-	         NodeSale aux = this.start;
+  public Projection getProjection(int x) {
+	         NodeProjection aux = this.start;
 	         for(int i=0; i< x; i++) {
 	             aux = aux.getNext();
 	         }
@@ -26,7 +24,7 @@ public class SaleController {
 	     }
 	     
 	     public int getIndex(int id) {
-	 		NodeSale aux = this.start;
+	 		NodeProjection aux = this.start;
 	 		boolean exist = false;
 	 		int pos = 1;
 	 		
@@ -47,12 +45,12 @@ public class SaleController {
 	 		}
 	 	}
 	   
-		public void addAndSave(Sale data) {
-			NodeSale n = new NodeSale(data);
+		public void addAndSave(Projection data) {
+			NodeProjection n = new NodeProjection(data);
 			if(this.start == null) {
 				this.start = n;
 			}else {
-				NodeSale aux = this.start;
+				NodeProjection aux = this.start;
 				while(aux.getNext()!=null) {
 					aux = aux.getNext();
 				}
@@ -61,18 +59,18 @@ public class SaleController {
 			}
 			DatabaseController database = new DatabaseController();
 			try {
-				database.saveSale(data);
+				database.saveProjection(data);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		public void add(Sale data) {
-			NodeSale n = new NodeSale(data);
+		public void add(Projection data) {
+			NodeProjection n = new NodeProjection(data);
 			if(this.start == null) {
 				this.start = n;
 			}else {
-				NodeSale aux = this.start;
+				NodeProjection aux = this.start;
 				while(aux.getNext()!=null) {
 					aux = aux.getNext();
 				}
@@ -99,7 +97,7 @@ public class SaleController {
 			}else if(this.start.getNext()==null){
 				this.start = null;
 			}else {
-				NodeSale aux = this.start;
+				NodeProjection aux = this.start;
 				while(aux.getNext()!=null) {
 					aux = aux.getNext();
 				}
@@ -114,11 +112,11 @@ public class SaleController {
 			}else if(pos == size() + 1) {
 				removeLast();
 			}else if(pos <= size() && pos>0) {
-				NodeSale aux = this.start;
+				NodeProjection aux = this.start;
 				for(int i=0; i<pos-1; i++) {
 					aux = aux.getNext();
 				}
-				NodeSale aux2 = aux.getBefore();
+				NodeProjection aux2 = aux.getBefore();
 				aux = aux.getNext();
 				aux2.setNext(aux);
 				aux.setBefore(aux2);
@@ -133,10 +131,10 @@ public class SaleController {
 	        }else {
 	            String data;
 	            StringBuffer buffer = new StringBuffer();
-	            NodeSale aux = this.start;
+	            NodeProjection aux = this.start;
 	            while(aux!=null) {
-	                buffer.append("Codigo: " + aux.getData().getId() + " |Lote: " 
-	            + aux.getData().getLot().getId() + " |Quantidade Vendida: " + aux.getData().getQtOut() + " |Total: " + aux.getData().getTotal() + " |Data: " + aux.getData().getDate() + "\n");
+	                buffer.append("Codigo: " + aux.getData().getId() + " |Id Produto: " 
+	            + aux.getData().getId() + " |Média: " + aux.getData().getAverage() + " |Mensagem: " + aux.getData().getReport() + " |Data: " + aux.getData().getDate() + "\n");
 	                aux = aux.getNext();
 	            }
 	            data = buffer.toString();
@@ -144,8 +142,8 @@ public class SaleController {
 	        }
 	    }
 			
-		public Sale getLastElement() {
-			NodeSale aux = this.start;
+		public Projection getLastElement() {
+			NodeProjection aux = this.start;
 			while(aux.getNext()!=null) {
 				aux = aux.getNext();
 			}
@@ -154,7 +152,7 @@ public class SaleController {
 		/*------------------------------------------------------------------------------------*/
 		
 		public int size() {
-			NodeSale n = this.start;
+			NodeProjection n = this.start;
 			int r = 0;
 			if(n!=null) {
 				while(n.getNext()!=null) {
