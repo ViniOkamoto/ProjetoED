@@ -80,7 +80,7 @@ public class Create {
 					JOptionPane.showMessageDialog(null, "Id do produto inválido!", "Error",0);
 				}
 			}
-			int qtIn = Integer.parseInt(JOptionPane.showInputDialog("Insira a quantidade adiquirida:"));
+			int qtIn = Integer.parseInt(JOptionPane.showInputDialog("Insira a quantidade adquirida:"));
 			int qtOut = 0;
 			double purcasheValue = Double.parseDouble(JOptionPane.showInputDialog("Insira o valor de compra (R$):"));
 			double saleValue = Double.parseDouble(JOptionPane.showInputDialog("Insira o valor de venda (R$):"));

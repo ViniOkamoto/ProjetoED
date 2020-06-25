@@ -162,4 +162,45 @@ public class ProjectionController {
 			}
 			return r;
 		}
+		
+		/*----------------------------------------------------------------------------*/
+		public void sort() {
+			quickSort(0, size());
+		}
+		
+		private void quickSort(int start, int end) {
+			if(start<end) {
+				int pivo= partition(start, end);
+				quickSort(start, pivo-1);
+				quickSort(pivo+1, end);
+			}
+		}
+		
+		private int partition(int start, int end) {
+			int i = start;
+			for(int j=start; j<end; j++) {
+				if(find(j).getData().getAverage()<=find(end).getData().getAverage()) {
+					trocar(i++, j);
+				}
+			}
+			trocar(i, end);
+			return i;
+		}
+		
+		private NodeProjection find(int pos) {
+			NodeProjection aux = this.start;
+			for(int i=0; i<pos; i++) {
+				aux = aux.getNext();
+			}
+			return aux;
+		}
+		
+		private void trocar(int i, int j) {
+			NodeProjection auxi = find(i);
+			Projection alunoi = auxi.getData();
+			NodeProjection auxj = find(j);
+			Projection alunoj = auxj.getData();
+			auxi.setData(alunoj);
+			auxj.setData(alunoi);
+		}
 }
