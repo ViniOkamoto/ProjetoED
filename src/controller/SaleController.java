@@ -15,7 +15,7 @@ public class SaleController {
 	public SaleController() {
 		this.start = null;
 	}
-	
+	//Estive aqui
 	   public Sale getSale(int x) {
 	         NodeSale aux = this.start;
 	         for(int i=0; i< x; i++) {
@@ -169,7 +169,7 @@ public class SaleController {
 						e.printStackTrace();
 					}
 				}else {
-					JOptionPane.showMessageDialog(null, "Lote não têm a quantidade para consumir!","Error",0);
+					JOptionPane.showMessageDialog(null, "Lote nï¿½o tï¿½m a quantidade para consumir!","Error",0);
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Insira lotes primeiro!","Error",0);
