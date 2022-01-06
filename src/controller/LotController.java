@@ -11,7 +11,7 @@ public class LotController {
 	public LotController() {
 		this.start = null;
 	}
-	
+	//Estive aqui
 	public Lot getLot(int x) {
         NodeLot aux = this.start;
         for(int i=0; i< x; i++) {
@@ -104,7 +104,7 @@ public class LotController {
 	
 	public NodeLot remove() {
 		if(this.start==null) {
-			System.err.println("A lista está vazia");
+			System.err.println("A lista estï¿½ vazia");
 			return null;
 		}else {
 			this.start = this.start.getNext();
@@ -119,7 +119,7 @@ public class LotController {
 	public String show() {
 		String mostra;
 		if(this.start == null) {
-			mostra = "A fila está vazia";
+			mostra = "A fila estï¿½ vazia";
 		}else {
 			StringBuffer buffer = new StringBuffer();
 			NodeLot aux = this.start;
